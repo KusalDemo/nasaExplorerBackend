@@ -5,6 +5,11 @@ import * as mongoose from "mongoose";
 const app = express();
 dotenv.config();
 
+app.use(express.json());
+
+const cors = require('cors')
+app.use(cors())
+
 const port = process.env.PORT || 3001
 
 
