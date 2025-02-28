@@ -3,6 +3,8 @@ import dotenv from 'dotenv'
 import * as mongoose from "mongoose";
 import {authenticateToken} from "./routes/user-routes";
 import customerRouter from "./routes/user-routes";
+import articleRouter from "./routes/article-routes";
+import commentRouter from "./routes/comment-routes";
 
 const app = express();
 dotenv.config();
@@ -28,6 +30,9 @@ mongoose
 app.use("/api/user",customerRouter);
 
 app.use(authenticateToken);
+
+app.use('/api/articles', articleRouter);
+app.use('/api/comments', commentRouter);
 
 
 app.listen(port,()=>{

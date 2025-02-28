@@ -26,7 +26,8 @@ export const loginUser = async (user: User) => {
 
         if (fetchedUser) {
             /* const isPasswordValid = await bcrypt.compare(user.password, fetchedUser.password);*/
-            const passwordMatch = fetchedUser.password.trim() === user.password.trim();
+            console.log(`Fetched User password: ${fetchedUser.password} vs User password: ${user.password}`);
+            const passwordMatch = fetchedUser.password === user.password;
             if (!passwordMatch) {
                 throw new Error("Invalid email or password");
             }
@@ -95,5 +96,6 @@ export const deleteUserComment = async (id:string, commentId: string | any ) => 
         throw error instanceof Error ? error : new Error(`Error occurred: ${error}`);
     }
 }
+
 
 

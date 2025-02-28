@@ -1,5 +1,6 @@
 import IArticle from "../models/IArticle";
 import { Article } from "../models/Article";
+import {addUserArticle} from "./user-data-store";
 
 export const addArticle = async (article: Article) => {
     try {
@@ -13,11 +14,11 @@ export const addArticle = async (article: Article) => {
             article.createdAt,
             article.likes,
             article.dislikes,
-            article.usersLiked,
-            article.usersDisliked
+            article.comments
         );
 
         await IArticle.create(newArticle);
+        await addUserArticle(article.authorId,newArticle.id);
         return newArticle;
     } catch (error) {
         throw error instanceof Error ? error : new Error(`Error occurred: ${error}`);
@@ -36,8 +37,6 @@ export const updateArticle = async (id: string, article: Article) => {
                 authorName: article.authorName,
                 likes: article.likes,
                 dislikes: article.dislikes,
-                usersLiked: article.usersLiked,
-                usersDisliked: article.usersDisliked,
             },
             { new: true }
         );
@@ -76,6 +75,30 @@ export const getArticlesByUserId = async (userId: string) => {
     try {
         const articles = await IArticle.find({ authorId: userId });
         return articles;
+    } catch (error) {
+        throw error instanceof Error ? error : new Error(`Error occurred: ${error}`);
+    }
+};
+
+export const thumbsUpArticle = async (articleId: string) => {
+    try {
+        const article = await IArticle.findById({_id: articleId}, {$inc: {likes: 1}});
+        if (!article) {
+            throw new Error(`Article with id: ${articleId} not found`);
+        }
+        return article;
+    } catch (error) {
+        throw error instanceof Error ? error : new Error(`Error occurred: ${error}`);
+    }
+};
+
+export const thumbsDownArticle = async (articleId: string) => {
+    try {
+        const article = await IArticle.findById({_id: articleId}, {$inc: {dislikes: 1}});
+        if (!article) {
+            throw new Error(`Article with id: ${articleId} not found`);
+        }
+        return article;
     } catch (error) {
         throw error instanceof Error ? error : new Error(`Error occurred: ${error}`);
     }

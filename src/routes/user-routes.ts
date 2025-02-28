@@ -11,7 +11,8 @@ userRouter.post("/register", async (req, res) => {
     try{
         const user: User = req.body;
         let response = await registerUser(user);
-        res.send(`User logged in successfully : ${response}`);
+        console.log(`User : ${JSON.stringify(response)}`);
+        res.status(200).send(response);
     }catch (error){
         console.error(`Error occurred: ${error}`);
         error instanceof Error ? res.status(400).send(error.message) : res.status(500).send(error);
