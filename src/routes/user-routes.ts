@@ -11,7 +11,6 @@ userRouter.post("/register", async (req, res) => {
     try{
         const user: User = req.body;
         let response = await registerUser(user);
-        console.log(`User : ${JSON.stringify(response)}`);
         res.status(200).send(response);
     }catch (error){
         console.error(`Error occurred: ${error}`);

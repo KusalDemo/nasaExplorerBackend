@@ -26,8 +26,7 @@ export const loginUser = async (user: User) => {
 
         if (fetchedUser) {
             /* const isPasswordValid = await bcrypt.compare(user.password, fetchedUser.password);*/
-            console.log(`Fetched User password: ${fetchedUser.password} vs User password: ${user.password}`);
-            const passwordMatch = fetchedUser.password === user.password;
+            const passwordMatch = fetchedUser.password.trim() === user.password.trim();
             if (!passwordMatch) {
                 throw new Error("Invalid email or password");
             }
