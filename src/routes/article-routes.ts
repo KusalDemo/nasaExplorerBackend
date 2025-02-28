@@ -14,7 +14,7 @@ articleRouter.post('/add', async (req, res) => {
     try {
         const article: Article = req.body;
         const newArticle = await addArticle(article);
-        res.status(201).json(newArticle);
+        res.status(200).json(newArticle);
     } catch (error) {
         console.error(`Error occurred: ${error}`);
         error instanceof Error
@@ -50,10 +50,11 @@ articleRouter.delete('/delete/:id', async (req, res) => {
     }
 });
 
-articleRouter.get('/all', async (req, res) => {
+articleRouter.get('/get-all', async (req, res) => {
     try {
         const articles = await getAllArticles();
-        res.status(200).json(articles);
+        console.log(`Fetched..`);
+        res.status(200).send(articles);
     } catch (error) {
         console.error(`Error occurred: ${error}`);
         error instanceof Error

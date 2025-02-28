@@ -12,6 +12,7 @@ export const generateToken = async (email: string) => {
 
 export const verifyToken = async (token: string) => {
     try {
+        console.log(`Token: "${token}" || Secret: "${process.env.JWT_SECRET}" verification ongoing...`);
         return jwt.verify(token, process.env.JWT_SECRET as Secret);
     } catch (error) {
         return null;

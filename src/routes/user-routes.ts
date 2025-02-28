@@ -3,6 +3,7 @@ import {loginUser, registerUser, updateUser} from "../database/user-data-store";
 import {User} from "../models/User";
 import {generateToken, verifyToken} from "../util/jwt";
 import dotenv from "dotenv";
+import bcrypt from "bcrypt";
 
 dotenv.config();
 let userRouter = express.Router();
@@ -10,6 +11,7 @@ let userRouter = express.Router();
 userRouter.post("/register", async (req, res) => {
     try{
         const user: User = req.body;
+
         let response = await registerUser(user);
         res.status(200).send(response);
     }catch (error){

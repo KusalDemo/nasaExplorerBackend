@@ -1,5 +1,6 @@
 import IUser from "../models/IUser";
 import {User} from "../models/User";
+import bcrypt from "bcrypt";
 
 export const registerUser = async (user: User) => {
 
@@ -7,11 +8,11 @@ export const registerUser = async (user: User) => {
         const fetchedUser = await IUser.findOne({email: user.email});
 
         if (!fetchedUser) {
-            /*const encryptedPassword = await bcrypt.hash(user.password, 10);*/
-            const newUser = new User(user.name, user.email, user.password, user.articles, user.comments);
+            const encryptedPassword = await bcrypt.hash(user.password, 7);
+            const newUser = new User(user.name, user.email, encryptedPassword, user.articles, user.comments);
 
-            await IUser.create(newUser);
-            return newUser;
+            let newestUser = await IUser.create(newUser);
+            return newestUser;
         } else {
             throw new Error(`User already exists`);
         }
@@ -25,12 +26,18 @@ export const loginUser = async (user: User) => {
         const fetchedUser = await IUser.findOne({email: user.email});
 
         if (fetchedUser) {
-            /* const isPasswordValid = await bcrypt.compare(user.password, fetchedUser.password);*/
-            const passwordMatch = fetchedUser.password.trim() === user.password.trim();
-            if (!passwordMatch) {
-                throw new Error("Invalid email or password");
+            const isPasswordValid = await bcrypt.compare(user.password, fetchedUser.password);
+
+            if (!isPasswordValid) {
+                throw new Error("Invalid email or password (1)");
             }
-            console.log(`User logged in successfully : ${fetchedUser}`);
+
+            console.log(`Password match: ${isPasswordValid}`);
+           /* const userPasswordEncrypted = await bcrypt.hash(user.password, 7);
+            const passwordMatch = fetchedUser.password.trim() === userPasswordEncrypted;
+            if (!passwordMatch) {
+                throw new Error("Invalid email or password (2)");
+            }*/
             return fetchedUser;
         }
         return null;

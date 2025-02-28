@@ -11,15 +11,15 @@ export const addArticle = async (article: Article) => {
             article.imageUrl,
             article.authorId,
             article.authorName,
-            article.createdAt,
+            new Date().toISOString(),
             article.likes,
             article.dislikes,
             article.comments
         );
 
-        await IArticle.create(newArticle);
+        const savedArticle = await IArticle.create(newArticle);
         await addUserArticle(article.authorId,newArticle.id);
-        return newArticle;
+        return savedArticle;
     } catch (error) {
         throw error instanceof Error ? error : new Error(`Error occurred: ${error}`);
     }
