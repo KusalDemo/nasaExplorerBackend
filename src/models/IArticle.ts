@@ -9,8 +9,8 @@ export interface IArticle extends Document {
     createdAt: Date;
     likes: number;
     dislikes: number;
-    usersLiked: mongoose.Schema.Types.ObjectId[];
-    usersDisliked: mongoose.Schema.Types.ObjectId[];
+    comments: mongoose.Schema.Types.ObjectId[];
+
 }
 
 const articleSchema = new Schema<IArticle>({
@@ -22,8 +22,7 @@ const articleSchema = new Schema<IArticle>({
     createdAt: { type: Date, default: Date.now },
     likes: { type: Number, default: 0 },
     dislikes: { type: Number, default: 0 },
-    usersLiked: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
-    usersDisliked: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+    comments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Comment' }],
 });
 
 export default mongoose.model<IArticle>('Article', articleSchema);

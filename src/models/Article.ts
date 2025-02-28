@@ -8,8 +8,7 @@ export class Article {
     createdAt: string;
     likes: number;
     dislikes: number;
-    usersLiked: string[];
-    usersDisliked: string[];
+    comments: string[];
 
     constructor(
         id: string,
@@ -21,8 +20,7 @@ export class Article {
         createdAt: string,
         likes: number = 0,
         dislikes: number = 0,
-        usersLiked: string[] = [],
-        usersDisliked: string[] = []
+        comments: string[]
     ) {
         this.id = id;
         this.title = title;
@@ -33,7 +31,6 @@ export class Article {
         this.createdAt = createdAt;
         this.likes = likes;
         this.dislikes = dislikes;
-        this.usersLiked = usersLiked;
-        this.usersDisliked = usersDisliked;
+        this.comments = comments;
     }
 }
